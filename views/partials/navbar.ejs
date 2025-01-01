@@ -22,18 +22,24 @@
 						<a class="nav-link text-white" href="/about">About Me</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link text-white" href="/addJokes">Add Jokes</a>
+						<a class="nav-link text-white" href="/addJoke">Add Jokes</a>
 					</li>
 				</ul>
-				<form class="d-flex" role="search">
+				<form class="d-flex me-2" role="search" action="/search" method="get">
 					<input
 						class="form-control me-2"
+						name="query"
 						type="search"
 						placeholder="Search Joke"
 						aria-label="Search"
 					/>
 					<button class="btn btn-outline-primary" type="submit">Search</button>
 				</form>
+				<% if(user) { %>
+				<a href="/auth/logout">
+					<button class="btn btn-outline-danger mt-2 mt-md-0">Logout</button>
+				</a>
+				<% } %>
 			</div>
 		</div>
 	</nav>

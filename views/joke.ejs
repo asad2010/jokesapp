@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../style.css" />
+	</head>
+	<body>
+		<section class="joke bg-dark">
+			<div class="container container-fluid">
+				<div class="pt-5">
+					<pre class="display-5 text-wrap"><%= joke.jokeText %></pre>
+					<hr />
+					<p><strong>By:</strong> <%= joke.addedBy.login %></p>
+					<p><strong>Rating:</strong> <%= joke.rating %>&#9733;</p>
+                    <a href="/">Go To Home &rarr;</a>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>

@@ -32,15 +32,19 @@ const authCtrl = {
 			)
 
 			const { password, ...otherDetails } = user._doc
-
-			res.status(201).json({ user: otherDetails, token })
+			req.session.user = {
+				id: user._id,
+				role: user.role,
+				firstname: user.firstname,
+			}
+			return res.redirect('/')
 		} catch (error) {
 			res.status(500).json({ message: error.message })
 		}
 	},
 
 	signIn: async (req, res) => {
-		const {password, login} = req.body;
+		const { login } = req.body
 		if (!login || !req.body.password)
 			return res
 				.status(400)
@@ -48,15 +52,14 @@ const authCtrl = {
 		try {
 			const existingUser = await Users.findOne({ login })
 			if (!existingUser) {
-				return res.status(400).json({ message: 'Invalid login or password!' })
+				return res.redirect('/')
 			}
-
 			const isPasswordCorrect = await bcrypt.compare(
 				req.body.password,
 				existingUser.password
 			)
 			if (!isPasswordCorrect) {
-				return res.status(400).json({ message: 'Invalid login or password!' })
+				return res.redirect('/')
 			}
 
 			const token = JWT.sign(
@@ -64,9 +67,13 @@ const authCtrl = {
 				process.env.JWT_SECRET_KEY,
 				{ expiresIn: '1h' }
 			)
-
+			req.session.user = {
+				id: existingUser._id,
+				role: existingUser.role,
+				firstname: existingUser.firstname,
+			}
 			const { password, ...otherDetails } = existingUser._doc || existingUser
-			return res.status(200).json({ user: otherDetails, token })
+			return res.redirect('/')
 		} catch (error) {
 			return res.status(500).json({ message: error.message })
 		}

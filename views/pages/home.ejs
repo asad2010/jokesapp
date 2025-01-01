@@ -1,8 +1,106 @@
 <section class="home bg-dark">
 	<div class="container container-fluid">
 		<div class="home-content">
+			<h1 class="text-center pt-3">Welcome, <%= user.firstname %>!</h1>
 
-			<h1 class="text-center pt-3">Welcome!</h1>
+			<div class="row flex-wrap gap-3 mt-4 justify-content-center">
+				<% jokes.forEach((joke, index) => { %>
+				<div class="joke-box col-auto p-4" id="joke-<%= index %>">
+					<h3>
+						<pre><a href="/jokes/<%= joke.id %> " class="text-white">
+<%= joke.jokeText.slice(0, 10) %><% if(joke.jokeText.length > 10){ %>...<% } %></a></pre>
+					</h3>
+					<p class="">By: <%= joke.addedBy.login %></p>
+					<div class="d-flex align-items-center">
+						<p class="me-2">Rating: <%= joke.rating %><span>&#9733;</span></p>
+					</div>
+
+					<div class="rating-container">
+						<!-- Rating Input -->
+						<form
+							action="/updateJoke/<%= joke._id %>"
+							method="POST"
+							class="rating-form"
+						>
+							<input
+								type="number"
+								min="0"
+								max="5"
+								class="form-control mb-3"
+								name="rating"
+								id="rating-<%= index %>"
+								placeholder="Rate from 0 to 5"
+								required
+							/>
+							<button type="submit" class="btn btn-success w-100">Rate</button>
+						</form>
+
+						<!-- Edit Mode (Hidden by Default) -->
+						<form
+							action="/updateJoke/<%= joke._id %>"
+							method="POST"
+							class="edit-form d-none"
+						>
+							<textarea
+								name="jokeText"
+								class="form-control mb-3"
+								id="edit-text-<%= index %>"
+								placeholder="Edit your joke"
+								required
+							>
+<%= joke.jokeText %></textarea
+							>
+							<button type="submit" class="btn btn-success w-100">Save</button>
+						</form>
+					</div>
+
+					<% if (String(user.id) == String(joke.addedBy.id)) { %>
+					<div class="d-flex gap-2 justify-content-between">
+						<button
+							type="button"
+							class="btn btn-outline-primary w-100 mt-3 toggle-edit"
+							data-id="<%= index %>"
+						>
+							Edit
+						</button>
+						<form action="/deleteJoke/<%= joke._id %>" method="POST">
+							<button type="submit" class="btn btn-outline-danger w-100 mt-3">
+								Delete
+							</button>
+						</form>
+					</div>
+					<% } %>
+				</div>
+				<% }) %>
+			</div>
+			<div class="pagination-container text-center mt-3">
+				<a
+					href="<%= page > 1 ? '?page=' + (page - 1) : '' %>"
+					class="<%= page <= 1 ? 'disabled' : '' %>"
+					>&larr; Previous</a
+				>
+
+				<a
+					href="<%= page < totalPages ? '?page=' + (page + 1) : '' %>"
+					class="<%= page >= totalPages ? 'disabled' : '' %>"
+					>Next &rarr;</a
+				>
+			</div>
 		</div>
 	</div>
 </section>
+
+<script>
+	document.querySelectorAll('.toggle-edit').forEach(button => {
+		button.addEventListener('click', () => {
+			const jokeIndex = button.getAttribute('data-id')
+			const jokeBox = document.getElementById(`joke-${jokeIndex}`)
+			const ratingForm = jokeBox.querySelector('.rating-form')
+			const editForm = jokeBox.querySelector('.edit-form')
+
+			// Toggle visibility
+			ratingForm.classList.toggle('d-none')
+			editForm.classList.toggle('d-none')
+		})
+	})
+</script>

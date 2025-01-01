@@ -1,0 +1,124 @@
+<section class="login bg-dark pb-5">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-6 col-md-8 col-sm-12">
+				<div class="login-form" id="auth-form">
+					<!-- Sign Up Form -->
+					<form action="/auth/signup" method="POST" id="signup-form">
+						<h1 class="mt-5">Sign Up</h1>
+						<div class="mb-3">
+							<label for="firstname" class="form-label">First Name</label>
+							<input
+								type="text"
+								class="form-control"
+								id="firstname"
+								name="firstname"
+								placeholder="Enter your first name"
+								required
+							/>
+						</div>
+						<div class="mb-3">
+							<label for="lastname" class="form-label">Last Name</label>
+							<input
+								type="text"
+								class="form-control"
+								id="lastname"
+								name="lastname"
+								placeholder="Enter your last name"
+								required
+							/>
+						</div>
+						<div class="mb-3">
+							<label for="login" class="form-label">Username</label>
+							<input
+								type="text"
+								class="form-control"
+								id="login"
+								name="login"
+								placeholder="Enter your username"
+								required
+							/>
+						</div>
+						<div class="mb-3">
+							<label for="email" class="form-label">Email address</label>
+							<input
+								type="email"
+								class="form-control"
+								id="email"
+								name="email"
+								placeholder="Enter your email"
+								required
+							/>
+						</div>
+						<div class="mb-3">
+							<label for="password" class="form-label">Password</label>
+							<input
+								type="password"
+								class="form-control"
+								id="password"
+								name="password"
+								placeholder="Enter your password"
+								required
+							/>
+						</div>
+						<button type="submit" class="btn btn-primary">Sign Up</button>
+						<a href="#" id="toggle-form-link">I already have an account.</a>
+					</form>
+
+					<!-- Sign In Form (Initially Hidden) -->
+					<form
+						action="/auth/signin"
+						method="POST"
+						id="signin-form"
+						style="display: none"
+					>
+						<h1 class="mt-5">Sign In</h1>
+						<div class="mb-3">
+							<label for="login-signin" class="form-label">Username</label>
+							<input
+								type="text"
+								class="form-control"
+								id="login-signin"
+								name="login"
+								placeholder="Enter your username"
+								required
+							/>
+						</div>
+						<div class="mb-3">
+							<label for="password-signin" class="form-label">Password</label>
+							<input
+								type="password"
+								class="form-control"
+								id="password-signin"
+								name="password"
+								placeholder="Enter your password"
+								required
+							/>
+						</div>
+						<button type="submit" class="btn btn-primary">Sign In</button>
+						<a href="#" id="toggle-form-link-signin">Don't have an account?</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	const toggleLink = document.getElementById('toggle-form-link')
+	const toggleLinkSignin = document.getElementById('toggle-form-link-signin')
+	const signupForm = document.getElementById('signup-form')
+	const signinForm = document.getElementById('signin-form')
+
+	toggleLink.addEventListener('click', function (event) {
+		event.preventDefault()
+		signupForm.style.display = 'none'
+		signinForm.style.display = 'block'
+	})
+
+	toggleLinkSignin.addEventListener('click', function (event) {
+		event.preventDefault()
+		signinForm.style.display = 'none'
+		signupForm.style.display = 'block'
+	})
+</script>

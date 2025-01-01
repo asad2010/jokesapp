@@ -4,6 +4,7 @@ const fs = require('fs')
 require('dotenv').config()
 const bodyParser = require('body-parser')
 const expressLayouts = require('express-ejs-layouts')
+const session = require('express-session')
 const mongoose = require('mongoose')
 const path = require('path')
 
@@ -12,6 +13,14 @@ const jokesRouter = require('./mvc/routers/jokesRouter')
 const authRouter = require('./mvc/routers/authRouter')
 const userRouter = require('./mvc/routers/userRouter')
 
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET_KEY,
+		resave: false,
+		saveUninitialized: false,
+		cookie: { secure: false },
+	})
+)
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
