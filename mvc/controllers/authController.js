@@ -40,27 +40,23 @@ const authCtrl = {
 	},
 
 	signIn: async (req, res) => {
-        console.log(req.body);
-        
-		const { login = '', password = '' } = req.body || {}
-		if (!login || !password) {
+		const {password, login} = req.body;
+		if (!login || !req.body.password)
 			return res
 				.status(400)
 				.json({ message: 'Login and password are required!' })
-		}
-
 		try {
 			const existingUser = await Users.findOne({ login })
 			if (!existingUser) {
-				return res.status(400).json({ message: 'Invalid email or password!' })
+				return res.status(400).json({ message: 'Invalid login or password!' })
 			}
 
 			const isPasswordCorrect = await bcrypt.compare(
-				password,
+				req.body.password,
 				existingUser.password
 			)
 			if (!isPasswordCorrect) {
-				return res.status(400).json({ message: 'Invalid email or password!' })
+				return res.status(400).json({ message: 'Invalid login or password!' })
 			}
 
 			const token = JWT.sign(
