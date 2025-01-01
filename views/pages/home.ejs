@@ -54,7 +54,7 @@
 						</form>
 					</div>
 
-					<% if (String(user.id) == String(joke.addedBy.id)) { %>
+					<% if (String(user.id) == String(joke.addedBy.id) || Number(user.role)==101) { %>
 					<div class="d-flex gap-2 justify-content-between">
 						<button
 							type="button"

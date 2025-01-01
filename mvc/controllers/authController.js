@@ -67,6 +67,7 @@ const authCtrl = {
 				process.env.JWT_SECRET_KEY,
 				{ expiresIn: '1h' }
 			)
+			console.log(token)
 			req.session.user = {
 				id: existingUser._id,
 				role: existingUser.role,
